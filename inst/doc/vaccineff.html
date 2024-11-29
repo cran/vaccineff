@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>vaccineff</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">
+
+div.csl-bib-body { }
+div.csl-entry {
+clear: both;
+}
+.hanging div.csl-entry {
+margin-left:2em;
+text-indent:-2em;
+}
+div.csl-left-margin {
+min-width:2em;
+float:left;
+}
+div.csl-right-inline {
+margin-left:2em;
+padding-left:1em;
+}
+div.csl-indent {
+margin-left: 2em;
+}
+</style>
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">vaccineff</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(vaccineff)</span></code></pre></div>
+<div id="usage" class="section level2">
+<h2>Usage</h2>
+<p>Vaccines are created to offer protection against diseases that affect
+human health. Quantifying how well vaccines work in controlled
+environments and in real-life settings remains a challenge for
+scientists. Estimating vaccine effectiveness (<span class="math inline">\(VE\)</span>) is a key task once a vaccine is
+available as a control measure within a population, such as during the
+middle phase of an epidemic like Ebola or COVID-19, and also in the
+evaluation of regular vaccination programs, such as childhood
+vaccines.</p>
+<p><code>vaccineff</code> provides tools to estimate <span class="math inline">\(VE\)</span> under different study designs <span class="citation">(<a href="#ref-bookvaccine">Halloran, Longini, and
+Struchiner 2010</a>)</span>. The package provides a set of features for
+preparing the data, estimating crude and adjusted effectiveness,
+controlling for potential confounders such as age and assessing the
+performance of the models used to approximate <span class="math inline">\(VE\)</span>.</p>
+</div>
+<div id="who-are-the-users-potential-users" class="section level2">
+<h2>Who are the users / potential users?</h2>
+<p><code>vaccineff</code> is useful for local, national, and
+international health agencies looking for a quick implementation to
+estimate <span class="math inline">\(VE\)</span> based on their
+available data. It also provides insights to researchers, data analysts,
+and epidemiology students on how to approach <span class="math inline">\(VE\)</span> using different methods. We believe
+that <code>vaccineff</code> would be specially useful for users without
+advanced training in statistical methods.</p>
+</div>
+<div id="what-is-vaccine-effectiveness" class="section level2">
+<h2>What is vaccine effectiveness?</h2>
+<p>In contrast with vaccine efficacy, which is the percentage reduction
+of disease incidence in a vaccinated group compared with an unvaccinated
+group under ideal conditions, <span class="math inline">\(VE\)</span> is
+the percentage reduction of disease incidence in a vaccinated group
+compared with an unvaccinated group under routine conditions. The
+reduction attributable to vaccination is usually assessed from data
+collected in observational studies <span class="citation">(<a href="#ref-bookvaccine">Halloran, Longini, and Struchiner
+2010</a>)</span>. Evaluating the effectiveness of vaccines in the field
+is an important aspect of monitoring immunization programs.</p>
+</div>
+<div id="for-which-designs-is-this-package" class="section level2">
+<h2>For which designs is this package?</h2>
+<p><code>vaccineff</code> is a package designed to be used for any
+infectious disease for which a vaccine strategy has been implemented.
+This current version only allows measuring <span class="math inline">\(VE\)</span> for cohort study designs. Future
+version will include other designs such as test-negative/case-control
+studies, and the screening method <span class="citation">(<a href="#ref-torvaldsen2002observational">Torvaldsen and McIntyre
+2002</a>)</span>. For more information, see the vignette <a href="https://epiverse-trace.github.io/vaccineff/articles/other_designs.html">Other
+designs</a>.</p>
+<div id="cohort-design" class="section level3">
+<h3>Cohort Design</h3>
+<p>In the cohort design, <span class="math inline">\(VE\)</span> is
+estimated using the Hazard Ratios (<span class="math inline">\(HR\)</span>) between vaccinated and unvaccinated
+populations,</p>
+<p><span class="math display">\[VE = (1-HR(t))\times100.\]</span></p>
+<p>The <span class="math inline">\(HR\)</span> is estimated using the
+Cox Proportional Hazards model. In particular, we use the vaccine status
+of the individuals as the only covariate in the regression. Other
+confounders can be included as matching arguments to adjust for
+observational bias. The proportional hazards hypothesis is checked using
+the Schoenfeld test. A visual check is also provided using the log-log
+representation of the Survival Probability. If the hypothesis is not
+satisfied, it is recommended to stratify the population into smaller
+groups using the confounding variables.</p>
+</div>
+</div>
+<div id="what-type-of-data-is-needed-to-use-the-package" class="section level2">
+<h2>What type of data is needed to use the package?</h2>
+<p>This package is designed to be used with vaccination data sets with
+the following structure.</p>
+<div id="data-for-cohort-design" class="section level3">
+<h3>Data for Cohort design</h3>
+<p>Data should be disaggregated at the individual level to track
+vaccinated and unvaccinated populations over time. The dataset must
+include the following information:</p>
+<ul>
+<li><p>Date(s) of vaccination for each individual: The package allows
+for multiple doses per individual and estimates the immunization date
+using delay times of outcomes and the timing of vaccine
+administration.</p></li>
+<li><p>Date(s) of outcome(s): The package estimates vaccine
+effectiveness against various outcomes.</p></li>
+<li><p>Date(s) of right censoring: The package allows for the inclusion
+of information on dates of events that constitute right
+censoring.</p></li>
+<li><p>Individuals’ demographic information (e.g., sex, age group,
+health status): These can be used as confounding variables to match the
+population and reduce observational bias.</p></li>
+</ul>
+<p>An example dataset for a cohort design is included, with information
+on vaccination dates and biological details per dose, as well as
+relevant demographic information. The level of data aggregation is
+tailored to the characteristics and needs of the study case. To load
+this dataset, run the following code</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Load example data</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&quot;cohortdata&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">head</span>(cohortdata)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;         id sex age death_date death_other_causes vaccine_date_1 vaccine_date_2</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; 1 04edf85a   M  50       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; 2 c5a83f56   M  66       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; 3 82991731   M  81       &lt;NA&gt;               &lt;NA&gt;           &lt;NA&gt;           &lt;NA&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="co">#&gt; 4 afbab268   M  74       &lt;NA&gt;               &lt;NA&gt;     2021-03-30     2021-05-16</span></span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="co">#&gt; 5 3faf2474   M  54       &lt;NA&gt;               &lt;NA&gt;     2021-06-01     2021-06-22</span></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="co">#&gt; 6 97df7bdc   M  79       &lt;NA&gt;               &lt;NA&gt;     2021-03-21     2021-05-02</span></span>
+<span id="cb2-11"><a href="#cb2-11" tabindex="-1"></a><span class="co">#&gt;   vaccine_1 vaccine_2</span></span>
+<span id="cb2-12"><a href="#cb2-12" tabindex="-1"></a><span class="co">#&gt; 1      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span id="cb2-13"><a href="#cb2-13" tabindex="-1"></a><span class="co">#&gt; 2      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span id="cb2-14"><a href="#cb2-14" tabindex="-1"></a><span class="co">#&gt; 3      &lt;NA&gt;      &lt;NA&gt;</span></span>
+<span id="cb2-15"><a href="#cb2-15" tabindex="-1"></a><span class="co">#&gt; 4    BRAND2    BRAND2</span></span>
+<span id="cb2-16"><a href="#cb2-16" tabindex="-1"></a><span class="co">#&gt; 5    BRAND1    BRAND1</span></span>
+<span id="cb2-17"><a href="#cb2-17" tabindex="-1"></a><span class="co">#&gt; 6    BRAND2    BRAND2</span></span></code></pre></div>
+</div>
+</div>
+<div id="modeling-vaccine-effectiveness" class="section level2">
+<h2>Modeling vaccine effectiveness</h2>
+<div id="ve-for-cohort-design" class="section level3">
+<h3>VE for Cohort design</h3>
+<p>The current release of the package bases the estimation of <span class="math inline">\(VE\)</span> in the cohort design on the assumption
+of proportional hazards between vaccinated and unvaccinated populations.
+The <span class="math inline">\(HR\)</span> is estimated using the Cox
+proportional hazards model implemented in the R package
+<code>{survival}</code>.</p>
+<p>The integrated dataset <code>cohortdata</code> serves as a minimal
+example of the package’s input. The data is accessed using
+<code>data(&quot;cohortdata&quot;)</code>.</p>
+<p><code>vaccineff</code> has two main functions: 1.
+<code>make_vaccineff_data</code>: This function returns an S3 object of
+the class <code>vaccineff_data</code> with the relevant information for
+the study. This function also allows to create a matched cohort to
+control for confounding variables by setting <code>match = TRUE</code>
+and passing the corresponding <code>exact</code> and
+<code>nearest</code> arguments. <code>make_vaccineff_data</code>
+supports the methods <code>summary()</code> to check the characteristics
+of the cohort, the matching balance and the sizes of matched, excluded,
+and removed populations, and <code>plot()</code> to plot the cohort
+coverage.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><code>estimate_vaccineff</code>: This function provides methods for
+estimating VE using the <span class="math inline">\(HR\)</span>. A
+summary of the estimation can be obtained using <code>summary()</code>
+and a graphical representation of the methodology is generated by
+<code>plot().</code></li>
+</ol>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Create `vaccineff_data`</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>vaccineff_data <span class="ot">&lt;-</span> <span class="fu">make_vaccineff_data</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">data_set =</span> cohortdata,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">outcome_date_col =</span> <span class="st">&quot;death_date&quot;</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="at">censoring_date_col =</span> <span class="st">&quot;death_other_causes&quot;</span>,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="at">vacc_date_col =</span> <span class="st">&quot;vaccine_date_2&quot;</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="at">vaccinated_status =</span> <span class="st">&quot;v&quot;</span>,</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="at">unvaccinated_status =</span> <span class="st">&quot;u&quot;</span>,</span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="at">immunization_delay =</span> <span class="dv">15</span>,</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>  <span class="at">end_cohort =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2021-12-31&quot;</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>  <span class="at">match =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a>  <span class="at">exact =</span> <span class="fu">c</span>(<span class="st">&quot;age&quot;</span>, <span class="st">&quot;sex&quot;</span>),</span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a>  <span class="at">nearest =</span> <span class="cn">NULL</span></span>
+<span id="cb3-14"><a href="#cb3-14" tabindex="-1"></a>)</span>
+<span id="cb3-15"><a href="#cb3-15" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" tabindex="-1"></a><span class="co"># Print summary of vaccineff data object</span></span>
+<span id="cb3-17"><a href="#cb3-17" tabindex="-1"></a><span class="fu">summary</span>(vaccineff_data)</span>
+<span id="cb3-18"><a href="#cb3-18" tabindex="-1"></a><span class="co">#&gt; Cohort start:  2021-03-26</span></span>
+<span id="cb3-19"><a href="#cb3-19" tabindex="-1"></a><span class="co">#&gt; Cohort end:  2021-12-31</span></span>
+<span id="cb3-20"><a href="#cb3-20" tabindex="-1"></a><span class="co">#&gt; The start date of the cohort was defined as the mininimum immunization date. </span></span>
+<span id="cb3-21"><a href="#cb3-21" tabindex="-1"></a><span class="co">#&gt; 65 registers were removed with outcomes before the start date.</span></span>
+<span id="cb3-22"><a href="#cb3-22" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-23"><a href="#cb3-23" tabindex="-1"></a><span class="co">#&gt; Nearest neighbors matching iteratively performed.</span></span>
+<span id="cb3-24"><a href="#cb3-24" tabindex="-1"></a><span class="co">#&gt; Number of iterations:  4</span></span>
+<span id="cb3-25"><a href="#cb3-25" tabindex="-1"></a><span class="co">#&gt; Balance all:</span></span>
+<span id="cb3-26"><a href="#cb3-26" tabindex="-1"></a><span class="co">#&gt;               u         v         smd</span></span>
+<span id="cb3-27"><a href="#cb3-27" tabindex="-1"></a><span class="co">#&gt; age   63.917069 62.997438 -0.08593156</span></span>
+<span id="cb3-28"><a href="#cb3-28" tabindex="-1"></a><span class="co">#&gt; sex_F  0.520277  0.573474  0.10701746</span></span>
+<span id="cb3-29"><a href="#cb3-29" tabindex="-1"></a><span class="co">#&gt; sex_M  0.479723  0.426526 -0.10701746</span></span>
+<span id="cb3-30"><a href="#cb3-30" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-31"><a href="#cb3-31" tabindex="-1"></a><span class="co">#&gt; Balance matched:</span></span>
+<span id="cb3-32"><a href="#cb3-32" tabindex="-1"></a><span class="co">#&gt;                u          v smd</span></span>
+<span id="cb3-33"><a href="#cb3-33" tabindex="-1"></a><span class="co">#&gt; age   63.7556091 63.7556091   0</span></span>
+<span id="cb3-34"><a href="#cb3-34" tabindex="-1"></a><span class="co">#&gt; sex_F  0.5216948  0.5216948   0</span></span>
+<span id="cb3-35"><a href="#cb3-35" tabindex="-1"></a><span class="co">#&gt; sex_M  0.4783052  0.4783052   0</span></span>
+<span id="cb3-36"><a href="#cb3-36" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-37"><a href="#cb3-37" tabindex="-1"></a><span class="co">#&gt; Summary vaccination:</span></span>
+<span id="cb3-38"><a href="#cb3-38" tabindex="-1"></a><span class="co">#&gt;               u     v</span></span>
+<span id="cb3-39"><a href="#cb3-39" tabindex="-1"></a><span class="co">#&gt; All       10973 19905</span></span>
+<span id="cb3-40"><a href="#cb3-40" tabindex="-1"></a><span class="co">#&gt; Matched   10786 10786</span></span>
+<span id="cb3-41"><a href="#cb3-41" tabindex="-1"></a><span class="co">#&gt; Unmatched   187  9119</span></span>
+<span id="cb3-42"><a href="#cb3-42" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-43"><a href="#cb3-43" tabindex="-1"></a><span class="co">#&gt; // tags: outcome_date_col:death_date, censoring_date_col:death_other_causes, vacc_date_col:vaccine_date_2, immunization_date_col:immunization_date, vacc_status_col:vaccine_status</span></span>
+<span id="cb3-44"><a href="#cb3-44" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" tabindex="-1"></a><span class="co"># Plot the vaccine coverage of the total population</span></span>
+<span id="cb3-46"><a href="#cb3-46" tabindex="-1"></a><span class="fu">plot</span>(vaccineff_data)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co"># Estimate the Vaccine Effectiveness at 90 days</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>ve90 <span class="ot">&lt;-</span> <span class="fu">estimate_vaccineff</span>(vaccineff_data, <span class="at">at =</span> <span class="dv">90</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co"># Print summary of VE</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="fu">summary</span>(ve90)</span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; Vaccine Effectiveness at 90 days computed as VE = 1 - HR:</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt;      VE lower.95 upper.95</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt;  0.6787   0.4612   0.8084</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; Schoenfeld test for Proportional Hazards assumption:</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; p-value = 0.0234</span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; Warning:</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; p-value &lt; 0.05. Please check loglog plot for Proportional Hazards assumption</span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co"># Loglog plot to check proportional hazards</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="fu">plot</span>(ve90, <span class="at">type =</span> <span class="st">&quot;loglog&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+<p>For details on the estimation of VE in cohort studies see the
+vignette <a href="https://epiverse-trace.github.io/vaccineff/articles/cohort_design.html">Introduction
+to cohort design with vaccineff</a></p>
+</div>
+</div>
+<div id="key-references" class="section level2 unnumbered">
+<h2 class="unnumbered">Key references</h2>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-bookvaccine" class="csl-entry">
+Halloran, Elizabeth, Ira Longini, and Claudio Struchiner. 2010.
+<em>Design and Analysis of Vaccine Studies</em>. Springer.
+</div>
+<div id="ref-torvaldsen2002observational" class="csl-entry">
+Torvaldsen, Siranda, and Peter B McIntyre. 2002. <span>“Observational
+Methods in Epidemiologic Assessment of Vaccine Effectiveness.”</span>
+<em>Communicable Diseases Intelligence Quarterly Report</em> 26 (3).
+</div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
