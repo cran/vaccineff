@@ -35,7 +35,8 @@ test_that("`plot_coverage`: default plot", {
     cumulative = FALSE
   )
 
-  expect_identical(plt$labels$y, "coverage * max(dose_plot)")
+  expect_identical(ggplot2::get_labs(plt)$y, "Doses per day")
+
   expect_identical(plt$data$doses, plt$data$dose_plot)
 })
 
@@ -47,6 +48,7 @@ test_that("`plot_coverage`: cumulative plot", {
     cumulative = TRUE
   )
 
-  expect_identical(plt$labels$y, "coverage * max(dose_plot)")
+  expect_identical(ggplot2::get_labs(plt)$y, "Doses per day")
+
   expect_identical(plt$data$cum_doses, plt$data$dose_plot)
 })
