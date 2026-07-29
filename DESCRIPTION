@@ -1,10 +1,10 @@
 Package: vaccineff
 Title: Estimate Vaccine Effectiveness Based on Different Study Designs
-Version: 1.0.1
+Version: 1.0.3
 Authors@R: c(
     person("David Santiago", "Quevedo", , "ex-dsquevedo@javeriana.edu.co", role = "aut",
            comment = c(ORCID = "0000-0003-1583-4262")),
-    person("Zulma M.", "Cucunubá", , "tracelacdev@gmail.com", role = c("aut", "cre"),
+    person("Zulma M.", "Cucunubá", , "zulma.cucunuba@javeriana.edu.co", role = "aut",
            comment = c(ORCID = "0000-0002-8165-3198")),
     person("International Development Research Center (IDRC)", role = "fnd",
            comment = c(ROR = "0445x0472")),
@@ -16,7 +16,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0003-3320-6032")),
     person("Santiago", "Loaiza", , "santiago.loaiza@javeriana.edu.co", role = "ctb",
            comment = c(ORCID = "0000-0002-2092-3262")),
-    person("Jaime", "Pavlich-Mariscal", , "jpavlich@javeriana.edu.co", role = "ctb",
+    person("Jaime", "Pavlich-Mariscal", , "jpavlich@javeriana.edu.co", role = c("ctb", "cre"),
            comment = c(ORCID = "0000-0002-3892-6680")),
     person("Hugo", "Gruson", , "hugo.gruson@data.org", role = "ctb",
            comment = c(ORCID = "0000-0002-4094-1476")),
@@ -50,12 +50,12 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-RoxygenNote: 7.3.2
+Config/roxygen2/version: 8.0.0
 NeedsCompilation: no
-Packaged: 2025-10-02 12:34:22 UTC; chartgerink
+Packaged: 2026-07-29 16:08:58 UTC; jpavlich
 Author: David Santiago Quevedo [aut] (ORCID:
     <https://orcid.org/0000-0003-1583-4262>),
-  Zulma M. Cucunubá [aut, cre] (ORCID:
+  Zulma M. Cucunubá [aut] (ORCID:
     <https://orcid.org/0000-0002-8165-3198>),
   International Development Research Center (IDRC) [fnd] (ROR:
     <https://ror.org/0445x0472>),
@@ -64,7 +64,7 @@ Author: David Santiago Quevedo [aut] (ORCID:
   Pratik Gupte [ctb] (ORCID: <https://orcid.org/0000-0001-5294-7819>),
   Érika J Cantor [ctb] (ORCID: <https://orcid.org/0000-0003-3320-6032>),
   Santiago Loaiza [ctb] (ORCID: <https://orcid.org/0000-0002-2092-3262>),
-  Jaime Pavlich-Mariscal [ctb] (ORCID:
+  Jaime Pavlich-Mariscal [ctb, cre] (ORCID:
     <https://orcid.org/0000-0002-3892-6680>),
   Hugo Gruson [ctb] (ORCID: <https://orcid.org/0000-0002-4094-1476>),
   Chris Hartgerink [ctb] (ORCID: <https://orcid.org/0000-0003-1050-6809>),
@@ -75,6 +75,6 @@ Author: David Santiago Quevedo [aut] (ORCID:
   Julian Otero [ctb] (ORCID: <https://orcid.org/0009-0006-0429-7747>),
   Pontificia Universidad Javeriana [cph] (ROR:
     <https://ror.org/03etyjw28>)
-Maintainer: Zulma M. Cucunubá <tracelacdev@gmail.com>
+Maintainer: Jaime Pavlich-Mariscal <jpavlich@javeriana.edu.co>
 Repository: CRAN
-Date/Publication: 2025-10-02 13:10:03 UTC
+Date/Publication: 2026-07-29 22:20:02 UTC
